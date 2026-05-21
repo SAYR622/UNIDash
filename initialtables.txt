@@ -1,0 +1,20 @@
+Orders
+
+	ID
+	orderID
+	memid(foreign)
+	memname(foreign)
+	memtype(foreign)
+	item
+	numofitems
+	price
+
+Members
+
+	ID
+	memtype
+	fname
+	lname
+	uniemail
+	pass
+	

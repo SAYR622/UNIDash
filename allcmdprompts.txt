@@ -1,0 +1,705 @@
+Microsoft Windows [Version 10.0.22631.6199]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\sayas>mysql -u root -p
+'mysql' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\sayas>cd C:\xampp\mysql
+
+C:\xampp\mysql>mysql -u root -p
+'mysql' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\xampp\mysql>cd
+
+C:\xampp\mysql>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 74
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use unidash
+Database changed
+MariaDB [unidash]> use members
+ERROR 1049 (42000): Unknown database 'members'
+MariaDB [unidash]> CREATE TABLE orders (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     orderID VARCHAR(50) NOT NULL,
+    ->     ordertype VARCHAR(50) NOT NULL,
+    ->     memid INT NOT NULL,
+    ->     memname VARCHAR(100) NOT NULL,
+    ->     memtype VARCHAR(50) NOT NULL,
+    ->     outletname VARCHAR(100) NOT NULL,
+    ->     item VARCHAR(255) NOT NULL,
+    ->     numofitems INT NOT NULL,
+    ->     price DECIMAL(10, 2) NOT NULL,
+    ->
+    ->     -- Establish the foreign key relationship
+    ->     FOREIGN KEY (memid) REFERENCES members(id)
+    ->         ON DELETE CASCADE
+    ->         ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [unidash]> drop orders
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'orders' at line 1
+MariaDB [unidash]> drop table orders;
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [unidash]> CREATE TABLE orders (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     orderID VARCHAR(50) NOT NULL,
+    ->     ordertype VARCHAR(50) NOT NULL,
+    ->     memid INT NOT NULL,
+    ->     memname VARCHAR(100) NOT NULL,
+    ->     memtype VARCHAR(50) NOT NULL,
+    ->     outletname VARCHAR(100) NOT NULL,
+    ->     item VARCHAR(255) NOT NULL,
+    ->     numofitems INT NOT NULL,
+    ->     price DECIMAL(10, 2) NOT NULL,
+    ->     FOREIGN KEY (memid) REFERENCES members(id),
+    ->     FOREIGN KEY (memname) REFERENCES members(fname),
+    ->     FOREIGN KEY (memtype) REFERENCES members(memtype)
+    ->     );
+ERROR 1005 (HY000): Can't create table `unidash`.`orders` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [unidash]> CREATE TABLE orders (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     orderID VARCHAR(50) NOT NULL,
+    ->     ordertype VARCHAR(50) NOT NULL,
+    ->     memid INT NOT NULL,
+    ->     memname VARCHAR(100) NOT NULL,
+    ->     memtype VARCHAR(50) NOT NULL,
+    ->     outletname VARCHAR(100) NOT NULL,
+    ->     item VARCHAR(255) NOT NULL,
+    ->     numofitems INT NOT NULL,
+    ->     price DECIMAL(10, 2) NOT NULL,
+    ->
+    ->     -- Only link the ID. This is the correct way to link tables.
+    ->     FOREIGN KEY (memid) REFERENCES members(id)
+    ->         ON DELETE CASCADE
+    ->         ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [unidash]> describe orders
+    -> ;
++------------+---------------+------+-----+---------+----------------+
+| Field      | Type          | Null | Key | Default | Extra          |
++------------+---------------+------+-----+---------+----------------+
+| id         | int(11)       | NO   | PRI | NULL    | auto_increment |
+| orderID    | varchar(50)   | NO   |     | NULL    |                |
+| ordertype  | varchar(50)   | NO   |     | NULL    |                |
+| memid      | int(11)       | NO   | MUL | NULL    |                |
+| memname    | varchar(100)  | NO   |     | NULL    |                |
+| memtype    | varchar(50)   | NO   |     | NULL    |                |
+| outletname | varchar(100)  | NO   |     | NULL    |                |
+| item       | varchar(255)  | NO   |     | NULL    |                |
+| numofitems | int(11)       | NO   |     | NULL    |                |
+| price      | decimal(10,2) | NO   |     | NULL    |                |
++------------+---------------+------+-----+---------+----------------+
+10 rows in set (0.008 sec)
+
+MariaDB [unidash]> describe orders;
++------------+---------------+------+-----+---------+----------------+
+| Field      | Type          | Null | Key | Default | Extra          |
++------------+---------------+------+-----+---------+----------------+
+| id         | int(11)       | NO   | PRI | NULL    | auto_increment |
+| orderID    | varchar(50)   | NO   |     | NULL    |                |
+| ordertype  | varchar(50)   | NO   |     | NULL    |                |
+| memid      | int(11)       | NO   | MUL | NULL    |                |
+| memname    | varchar(100)  | NO   |     | NULL    |                |
+| memtype    | varchar(50)   | NO   |     | NULL    |                |
+| outletname | varchar(100)  | NO   |     | NULL    |                |
+| item       | varchar(255)  | NO   |     | NULL    |                |
+| numofitems | int(11)       | NO   |     | NULL    |                |
+| price      | decimal(10,2) | NO   |     | NULL    |                |
++------------+---------------+------+-----+---------+----------------+
+10 rows in set (0.010 sec)
+
+MariaDB [unidash]> describe members;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| id       | int(20)      | NO   | PRI | NULL    |       |
+| memtype  | varchar(20)  | YES  |     | NULL    |       |
+| fname    | varchar(50)  | YES  |     | NULL    |       |
+| lname    | varchar(50)  | YES  |     | NULL    |       |
+| uniemail | varchar(100) | NO   | UNI | NULL    |       |
+| pass     | varchar(20)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.006 sec)
+
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 1,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 0,
+    -> admin,
+    -> Yashod,
+    -> Randhinu,
+    -> sayrandhinu@students.nsbm.ac.lk,;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '@students.nsbm.ac.lk,' at line 6
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 'admin',
+    -> 'Yashod',
+    -> 'Randhinu',
+    -> 'sayrandhinu@students.nsbm.ac.lk',
+    -> 'yashod622');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 0,
+    -> Yashod,
+    -> sayrandhinu@students.nsbm.ac.lk,;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '@students.nsbm.ac.lk,' at line 4
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 0,
+    -> 'admin',
+    ->     -> 'Yashod',
+    ->     -> 'Randhinu',
+    ->     -> 'sayrandhinu@students.nsbm.ac.lk',
+    ->     -> 'yashod622');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '> 'Yashod',
+    -> 'Randhinu',
+    -> 'sayrandhinu@students.nsbm.ac.lk',
+    ...' at line 4
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 0,
+    -> 'admin',
+    -> 'Yashod',
+    -> 'Randhinu',
+    -> 'sayrandhinu@students.nsbm.ac.lk',
+    -> 'yashod622');
+Query OK, 1 row affected (0.005 sec)
+
+MariaDB [unidash]> select * from orders;
+Empty set (0.000 sec)
+
+MariaDB [unidash]> insert into members (id,memtype,fname,lname,uniemail,pass) values(1,'customer','thinada','damhiru','ktdamhiru@students.nsbm.ac.lk','thinada0203');
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [unidash]> ALTER TABLE members MODIFY id INT(20) AUTO_INCREMENT;
+ERROR 1834 (HY000): Cannot delete rows from table which is parent in a foreign key constraint 'orders_ibfk_1' of table 'orders'
+MariaDB [unidash]> ALTER TABLE members MODIFY id INT(20) AUTO_INCREMENT;
+ERROR 1834 (HY000): Cannot delete rows from table which is parent in a foreign key constraint 'orders_ibfk_1' of table 'orders'
+MariaDB [unidash]> SET FOREIGN_KEY_CHECKS = 0;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [unidash]> ALTER TABLE members MODIFY id INT(20) AUTO_INCREMENT;
+ERROR 1062 (23000): ALTER TABLE causes auto_increment resequencing, resulting in duplicate entry '1' for key 'PRIMARY'
+MariaDB [unidash]> TRUNCATE TABLE members;
+Query OK, 0 rows affected (0.024 sec)
+
+MariaDB [unidash]> TRUNCATE TABLE orders;
+Query OK, 0 rows affected (0.026 sec)
+
+MariaDB [unidash]> ALTER TABLE members MODIFY id INT(20) AUTO_INCREMENT;
+Query OK, 0 rows affected (0.051 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> SET FOREIGN_KEY_CHECKS = 1;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [unidash]>  insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    ->     -> 0,
+    ->     -> 'admin',
+    ->     -> 'Yashod',
+    ->     -> 'Randhinu',
+    ->     -> 'sayrandhinu@students.nsbm.ac.lk',
+    ->     -> 'yashod622');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '> 0,
+    -> 'admin',
+    -> 'Yashod',
+    -> 'Randhinu',
+    -> 'sayrandhinu@...' at line 2
+MariaDB [unidash]>  insert into members (id,memtype,fname,lname,uniemail,pass) values(
+    -> 0,
+    -> 'admin',
+    -> 'Yashod',;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 4
+MariaDB [unidash]> insert into members (memtype,fname,lname,uniemail,pass) values(
+    -> 'admin',
+    ->     ->     -> 'Yashod',
+    ->     ->     -> 'Randhinu',
+    ->     ->     -> 'sayrandhinu@students.nsbm.ac.lk',
+    ->     ->     -> 'yashod622');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '>     -> 'Yashod',
+    ->     -> 'Randhinu',
+    ->     -> 'sayrandhinu@stude...' at line 3
+MariaDB [unidash]> INSERT INTO members (memtype, fname, lname, uniemail, pass)
+    -> VALUES ('admin', 'Yashod', 'Randhinu', 'sayrandhinu@students.nsbm.ac.lk', 'yashod622');
+Query OK, 1 row affected (0.005 sec)
+
+MariaDB [unidash]> CREATE TABLE menu_items (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     outlet_id VARCHAR(50) NOT NULL,
+    ->     item_name VARCHAR(100) NOT NULL,
+    ->     price INT NOT NULL,
+    ->     image_url VARCHAR(255) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [unidash]> CREATE TABLE menu_items (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     outlet_id VARCHAR(50) NOT NULL,
+    ->     item_name VARCHAR(100) NOT NULL,
+    ->     price INT NOT NULL,
+    ->     image_url VARCHAR(255) NOT NULL
+    -> );
+ERROR 1050 (42S01): Table 'menu_items' already exists
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('pns', 'Fish Bun', 100, 'Images/UNI/P&S/fishbun.jpg'),
+    -> ('pns', 'Chinese Chicken Roll', 130, 'Images/UNI/P&S/chickenchineseroll.jpg'),
+    -> ('pns', 'Fish Pastry', 130, 'Images/UNI/P&S/fishpastry.jpeg');
+Query OK, 3 rows affected (0.005 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('pns', 'Vegetable Roti', 140, 'Images/UNI/P&S/vegetableroti.jpg'),
+    -> ('pns', 'Sausage Bun', 120, 'Images/UNI/P&S/sausagebun.jpg'),
+    -> ('pns', 'Seeni Sambol Bun', 90, 'Images/UNI/P&S/seenisambolbun.jpg'),
+    -> ('pns', 'Fish Cutlet', 100, 'Images/UNI/P&S/fishcutlet.jpg'),
+    -> ('pns', 'Vegetable Sandwich', 170, 'Images/UNI/P&S/vegetablesandwich.jpg'),
+    -> ('pns', 'Chicken Submarine', 300, 'Images/UNI/P&S/chickensubmarine.jpg'),
+    -> ('pns', 'Chicken Roti', 110, 'Images/UNI/P&S/chickenroti.jpg'),
+    -> ('pns', 'Chicken Burger', 330, 'Images/UNI/P&S/chickenburger.png'),
+    -> ('pns', 'Cup Cake', 200, 'Images/UNI/P&S/cupcake.jpeg'),
+    -> ('pns', 'Chocolate Eclair', 130, 'Images/UNI/P&S/chocolateeclair.jpg'),
+    -> ('pns', 'Choc Doughnut', 150, 'Images/UNI/P&S/chocdoughnut.jpg'),
+    -> ('pns', 'Kimbula Bun', 50, 'Images/UNI/P&S/kimbulabun.jpg'),
+    -> ('pns', 'P&S Iced Coffee', 210, 'Images/UNI/P&S/p&sicedcofee.jpg'),
+    -> ('pns', 'Faluda Drink', 240, 'Images/UNI/P&S/faludadrink.jpg'),
+    -> ('pns', 'Lime Juice', 110, 'Images/UNI/P&S/limejuice.jpg');
+Query OK, 15 rows affected (0.004 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('cargills', 'Coca-Cola (500ml)', 300, 'Images/UNI/Cargills Express/cocacola500ml.jpg'),
+    -> ('cargills', 'Milo Packet (180ml)', 130, 'Images/UNI/Cargills Express/milopacket180ml.jpeg'),
+    -> ('cargills', 'EGB (500ml)', 200, 'Images/UNI/Cargills Express/egb500ml.jpeg'),
+    -> ('cargills', 'Kotmale Vanila Yoghurt Drink (180ml)', 150, 'Images/UNI/Cargills Express/kothmaleyogurtdrinkvanila.jpeg'),
+    -> ('cargills', 'Red Bull (250ml)', 850, 'Images/UNI/Cargills Express/redbull250ml.jpeg'),
+    -> ('cargills', 'Maliban Choc Biscuit', 130, 'Images/UNI/Cargills Express/malibanchocbiscuit.jpeg'),
+    -> ('cargills', 'Lemon Puff (200g)', 250, 'Images/UNI/Cargills Express/lemonpuff200g.jpeg'),
+    -> ('cargills', 'Gold Marie (80g)', 90, 'Images/UNI/Cargills Express/goldmarie80g.jpeg'),
+    -> ('cargills', 'Hawaiian Cookies', 320, 'Images/UNI/Cargills Express/hawaiancookies200g.jpeg'),
+    -> ('cargills', 'KitKat (4 Finger)', 590, 'Images/UNI/Cargills Express/kitkat4finger.jpg'),
+    -> ('cargills', 'Tipi Tip (Onion)', 100, 'Images/UNI/Cargills Express/Tipitiponion.jpeg'),
+    -> ('cargills', 'Prima Kottu Mee', 135, 'Images/UNI/Cargills Express/primakoththumee.jpg'),
+    -> ('cargills', 'Atlas Blue Pen', 30, 'Images/UNI/Cargills Express/atlasbluepen.jpg'),
+    -> ('cargills', 'Highlighters (4 Pack)', 750, 'Images/UNI/Cargills Express/atlasbluepen.jpg'),
+    -> ('cargills', 'CR Book (80 pgs)', 180, 'Images/UNI/Cargills Express/crbook80pgs.jpg'),
+    -> ('cargills', 'Munchee Nice', 180, 'Images/UNI/Cargills Express/muncheenice.jpg'),
+    -> ('cargills', 'Cassava Chips', 200, 'Images/UNI/Cargills Express/cassavachips.webp'),
+    -> ('cargills', 'A4 Paper (100 Shts)', 600, 'Images/UNI/Cargills Express/a4paper100shts.jpg'),
+    -> ('cargills', 'Tissue Packet', 300, 'Images/UNI/Cargills Express/tissuepacket.jpg');
+Query OK, 19 rows affected (0.006 sec)
+Records: 19  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('finagle', 'Chicken Kebab (185g)', 500, 'Images/UNI/Finagle/chickenkebab185g.jpeg'),
+    -> ('finagle', 'Chicken Samosa', 150, 'Images/UNI/Finagle/chickensamosa.webp'),
+    -> ('finagle', 'Chicken Pie', 240, 'Images/UNI/Finagle/chickenpie.webp'),
+    -> ('finagle', 'Chicken Hotdog', 270, 'Images/UNI/Finagle/chickenhotdog.jpg'),
+    -> ('finagle', 'Chicken Pasta', 475, 'Images/UNI/Finagle/chickenpasta.jpeg'),
+    -> ('finagle', 'Chicken Shawarma', 480, 'Images/UNI/Finagle/chickenshawarma.jpg'),
+    -> ('finagle', 'Chicken Kottu', 420, 'Images/UNI/Finagle/chickenkottu.jpg'),
+    -> ('finagle', 'Devilled Chicken Pizza Slices', 250, 'Images/UNI/Finagle/devilledchickenpizzaslices.png'),
+    -> ('finagle', 'Nescafe', 120, 'Images/UNI/Finagle/nescafecup.webp'),
+    -> ('finagle', 'Hot Milo', 120, 'Images/UNI/Finagle/hotmilo.png'),
+    -> ('finagle', 'Brownie', 120, 'Images/UNI/Finagle/brownie.jpg'),
+    -> ('finagle', 'Lava Cake', 300, 'Images/UNI/Finagle/lavacake.jpg');
+Query OK, 12 rows affected (0.003 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('barista', 'Cappuccino', 850, 'Images/UNI/Barista/cappuccino.jpg'),
+    -> ('barista', 'Cafe Latte', 850, 'Images/UNI/Barista/cafelatte.avif'),
+    -> ('barista', 'Espresso', 650, 'Images/UNI/Barista/espresso.webp'),
+    -> ('barista', 'Americano', 800, 'Images/UNI/Barista/americano.jpg'),
+    -> ('barista', 'Cafe Mocha', 950, 'Images/UNI/Barista/cafemocha.jpg'),
+    -> ('barista', 'Iced Latte', 950, 'Images/UNI/Barista/icedlatte.webp'),
+    -> ('barista', 'Iced Caramel Macchiato', 1100, 'Images/UNI/Barista/icedcaramelmacchiato.jpg'),
+    -> ('barista', 'Chocolate Frappe', 1250, 'Images/UNI/Barista/chocolatefrappe.webp'),
+    -> ('barista', 'Vanilla Frappe', 1200, 'Images/UNI/Barista/vanillafrappe.webp'),
+    -> ('barista', 'Butter Croissant', 500, 'Images/UNI/Barista/buttercroissant.jpg'),
+    -> ('barista', 'Chocolate Croissant', 600, 'Images/UNI/Barista/chocolatecroissant.webp'),
+    -> ('barista', 'Blueberry Muffin', 450, 'Images/UNI/Barista/blueberrymuffin.jpg'),
+    -> ('barista', 'Chocolate Chip Muffin', 450, 'Images/UNI/Barista/chocchipmuffin.jpg'),
+    -> ('barista', 'Chicken Tikka Sandwich', 850, 'Images/UNI/Barista/chickentikkasandwich.webp'),
+    -> ('barista', 'Smoked Chicken Panini', 950, 'Images/UNI/Barista/smokedchickenpanini.jpeg'),
+    -> ('barista', 'Tiramisu Cake Slice', 1100, 'Images/UNI/Barista/tiramisuslice.jpg'),
+    -> ('barista', 'Oreo Shake', 1300, 'Images/UNI/Barista/oreoshake.webp'),
+    -> ('barista', 'Nutella Shake', 1400, 'Images/UNI/Barista/nutellashake.jpeg');
+Query OK, 18 rows affected (0.005 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('serenity', 'Fried Rice-Chicken', 500, 'Images/UNI/EDGE/one/chickenfriedrice.jpg'),
+    -> ('serenity', 'Fried Rice-Fish', 420, 'Images/UNI/EDGE/one/fishfriedrice.jpg'),
+    -> ('serenity', 'Fried Rice-Egg', 450, 'Images/UNI/EDGE/one/eggfriedrice.webp'),
+    -> ('serenity', 'Fried Rice-Vegetable', 300, 'Images/UNI/EDGE/one/vegetablefriedrice.jpg'),
+    -> ('serenity', 'Rice & Curry-Chicken', 420, 'Images/UNI/EDGE/one/rice&currychicken.webp'),
+    -> ('serenity', 'Rice & Curry-Fish', 400, 'Images/UNI/EDGE/one/rice&curryfish.jpg'),
+    -> ('serenity', 'Rice & Curry-Egg', 350, 'Images/UNI/EDGE/one/rice&curryegg.jpg'),
+    -> ('serenity', 'Rice & Curry-Vegetable', 330, 'Images/UNI/EDGE/one/rice&curryvegetable.webp'),
+    -> ('serenity', 'Kottu-Chicken', 500, 'Images/UNI/EDGE/one/chickenkottu.webp'),
+    -> ('serenity', 'Kottu-Fish', 450, 'Images/UNI/EDGE/one/fishkottu.jpg'),
+    -> ('serenity', 'Kottu-Egg', 450, 'Images/UNI/EDGE/one/eggkottu.jpg'),
+    -> ('serenity', 'Kottu-Sea Food', 600, 'Images/UNI/EDGE/one/seafoodkottu.jpg'),
+    -> ('serenity', 'Biriyani', 650, 'Images/UNI/EDGE/one/biriyani.jpg'),
+    -> ('serenity', 'Nasigoreng', 650, 'Images/UNI/EDGE/one/nasigoreng.jpeg'),
+    -> ('serenity', 'String-Hoppers', 300, 'Images/UNI/EDGE/one/stringhoppers.png');
+Query OK, 15 rows affected (0.006 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('remarko', 'Dosa Set', 300, 'Images/UNI/EDGE/two/dosaset.webp'),
+    -> ('remarko', 'Poori Set', 300, 'Images/UNI/EDGE/two/pooriset.jpg'),
+    -> ('remarko', 'Paratha Set', 250, 'Images/UNI/EDGE/two/parathaset.jpg'),
+    -> ('remarko', 'Chapati', 300, 'Images/UNI/EDGE/two/chapati.jpg'),
+    -> ('remarko', 'Egg Biriyani - M', 600, 'Images/UNI/EDGE/two/eggbiriyani.jpg'),
+    -> ('remarko', 'Egg Biriyani - L', 980, 'Images/UNI/EDGE/two/eggbiriyani.jpg'),
+    -> ('remarko', 'Chicken Biriyani - M', 600, 'Images/UNI/EDGE/two/chickenbiriyani.jpg'),
+    -> ('remarko', 'Chicken Biriyani - L', 980, 'Images/UNI/EDGE/two/chickenbiriyani.jpg'),
+    -> ('remarko', 'Veg Biriyani - M', 550, 'Images/UNI/EDGE/two/vegbiriyani.jpg'),
+    -> ('remarko', 'Veg Biriyani - L', 880, 'Images/UNI/EDGE/two/vegbiriyani.jpg'),
+    -> ('remarko', 'Nasigoreng (Chicken) - M', 550, 'Images/UNI/EDGE/two/nasigoreng.jpeg'),
+    -> ('remarko', 'Nasigoreng (Chicken) - L', 880, 'Images/UNI/EDGE/two/nasigoreng.jpeg'),
+    -> ('remarko', 'Chicken Kottu', 550, 'Images/UNI/EDGE/two/chickenkottu.webp'),
+    -> ('remarko', 'Egg Kottu', 550, 'Images/UNI/EDGE/two/eggkottu.jpg');
+Query OK, 14 rows affected (0.006 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('juice', 'Papaya Smoothie', 450, 'Images/UNI/EDGE/juice/papaya.jpg'),
+    -> ('juice', 'Mango Smoothie', 500, 'Images/UNI/EDGE/juice/mango.jpg'),
+    -> ('juice', 'Pineapple Smoothie', 500, 'Images/UNI/EDGE/juice/pineapple.jpg'),
+    -> ('juice', 'Oreo Shake', 450, 'Images/UNI/EDGE/juice/oreo.jpg'),
+    -> ('juice', 'Milo Shake', 450, 'Images/UNI/EDGE/juice/milo.webp'),
+    -> ('juice', 'Faluda Shake', 400, 'Images/UNI/EDGE/juice/faluda.jpg'),
+    -> ('juice', 'Avacado Smoothie', 500, 'Images/UNI/EDGE/juice/avacado.webp'),
+    -> ('juice', 'Strawberry Smoothie', 600, 'Images/UNI/EDGE/juice/strawberry.jpg'),
+    -> ('juice', 'Passion Smoothie', 500, 'Images/UNI/EDGE/juice/passion.jpg'),
+    -> ('juice', 'Melon Smoothie', 450, 'Images/UNI/EDGE/juice/melon.jpg'),
+    -> ('juice', 'Banana Smoothie', 500, 'Images/UNI/EDGE/juice/banana.jpg'),
+    -> ('juice', 'Mix Fruit Juice', 400, 'Images/UNI/EDGE/juice/mixfruit.jpg');
+Query OK, 12 rows affected (0.005 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('hostel', 'String Hoppers', 220, 'Images/UNI/Hostel Canteen/stringhoppers.png'),
+    -> ('hostel', 'Roast Bread & Curry', 110, 'Images/UNI/Hostel Canteen/roastbread&curry.webp'),
+    -> ('hostel', 'Pol Roti & Gravy', 140, 'Images/UNI/Hostel Canteen/polroti&gravy.jpg'),
+    -> ('hostel', 'Milk Rice', 100, 'Images/UNI/Hostel Canteen/milkrice.webp'),
+    -> ('hostel', 'Paratha', 70, 'Images/UNI/Hostel Canteen/paratha.jpg'),
+    -> ('hostel', 'Kola Kanda', 100, 'Images/UNI/Hostel Canteen/kolakanda.png'),
+    -> ('hostel', 'Rice & Curry (Chicken)', 420, 'Images/UNI/Hostel Canteen/rice&currychicken.webp'),
+    -> ('hostel', 'Rice & Curry (Fish)', 400, 'Images/UNI/Hostel Canteen/rice&curryfish.jpg'),
+    -> ('hostel', 'Budget Meal', 350, 'Images/UNI/Hostel Canteen/budgetmeal.jpg'),
+    -> ('hostel', 'Fried Rice (Chicken)', 500, 'Images/UNI/Hostel Canteen/chickenfriedrice.jpg'),
+    -> ('hostel', 'Lump Rice', 700, 'Images/UNI/Hostel Canteen/lumprice.jpg'),
+    -> ('hostel', 'Nasigoreng', 650, 'Images/UNI/Hostel Canteen/nasigoreng.jpeg'),
+    -> ('hostel', 'Chicken Pasta', 500, 'Images/UNI/Hostel Canteen/chickenpasta.jpeg'),
+    -> ('hostel', 'Noodles Chicken', 460, 'Images/UNI/Hostel Canteen/chickennoodles.png'),
+    -> ('hostel', 'Chicken Kottu', 550, 'Images/UNI/Hostel Canteen/chickenkottu.webp'),
+    -> ('hostel', 'Egg Kottu', 400, 'Images/UNI/Hostel Canteen/eggkottu.jpg'),
+    -> ('hostel', 'Cheese & Egg Kottu', 600, 'Images/UNI/Hostel Canteen/cheese&eggkottu.jpg'),
+    -> ('hostel', 'String Hopper Kottu', 480, 'Images/UNI/Hostel Canteen/stringhopperskottu.jpg'),
+    -> ('hostel', 'Naan Roti', 230, 'Images/UNI/Hostel Canteen/naanroti.jpg'),
+    -> ('hostel', 'Fish Roll', 100, 'Images/UNI/Hostel Canteen/fishroll.jpg'),
+    -> ('hostel', 'Egg Roll', 130, 'Images/UNI/Hostel Canteen/eggroll.jpg'),
+    -> ('hostel', 'Chicken Bun', 150, 'Images/UNI/Hostel Canteen/chickenbun.jpg'),
+    -> ('hostel', 'Fish Pastry', 150, 'Images/UNI/Hostel Canteen/fishpastry.jpeg'),
+    -> ('hostel', 'Ulundu Wade', 110, 'Images/UNI/Hostel Canteen/ulunduwadee.jpg'),
+    -> ('hostel', 'Chicken Pizza Slice', 220, 'Images/UNI/Hostel Canteen/chickenpizzaslice.png'),
+    -> ('hostel', 'Mini Pizza', 550, 'Images/UNI/Hostel Canteen/minipizza.jpg'),
+    -> ('hostel', 'Cool Milo', 200, 'Images/UNI/Hostel Canteen/milopacket180ml.jpeg'),
+    -> ('hostel', 'Ice Coffee', 200, 'Images/UNI/Hostel Canteen/icedcoffee.jpg'),
+    -> ('hostel', 'NesTea', 120, 'Images/UNI/Hostel Canteen/nestea.jpg'),
+    -> ('hostel', 'Milk Tea', 120, 'Images/UNI/Hostel Canteen/milktea.jpg');
+Query OK, 30 rows affected (0.002 sec)
+Records: 30  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('kfc', '2pc Hot & Crispy', 1100, 'Images/OUT/KFC/2pchot&crispy.webp'),
+    -> ('kfc', '4pc Hot & Crispy', 2100, 'Images/OUT/KFC/4pchot&crispy.jpg'),
+    -> ('kfc', '8pc Chicken Bucket', 3800, 'Images/OUT/KFC/8pchot&crispy.jpg'),
+    -> ('kfc', 'Hot Drumlets (6pc)', 950, 'Images/OUT/KFC/hotdrumlets6pc.jpg'),
+    -> ('kfc', 'Zinger Burger', 950, 'Images/OUT/KFC/zingerburger.jpg'),
+    -> ('kfc', 'KFC Snacker', 450, 'Images/OUT/KFC/kfcsnacker.jpg'),
+    -> ('kfc', 'Tower Burger', 1200, 'Images/OUT/KFC/towerburger.jpeg'),
+    -> ('kfc', 'KFC Twister', 800, 'Images/OUT/KFC/kfctwister.jpg'),
+    -> ('kfc', 'Chicken Biryani', 750, 'Images/OUT/KFC/chickenbiryani.jpg'),
+    -> ('kfc', 'Popcorn Rice', 650, 'Images/OUT/KFC/popcornrice.jpg'),
+    -> ('kfc', 'Fiery Grilled Rice', 800, 'Images/OUT/KFC/fierygrilledrice.jpg'),
+    -> ('kfc', 'KFC Rice & Curry', 700, 'Images/OUT/KFC/kfcrice&curry.jpg'),
+    -> ('kfc', 'Popcorn Chicken', 600, 'Images/OUT/KFC/popcornchicken.webp'),
+    -> ('kfc', 'French Fries (L)', 450, 'Images/OUT/KFC/frenchfriesL.webp'),
+    -> ('kfc', 'Nuggets (6pc)', 700, 'Images/OUT/KFC/nuggets6pc.webp'),
+    -> ('kfc', 'Biscuit Pudding', 250, 'Images/OUT/KFC/biscuitpudding.jpeg');
+Query OK, 16 rows affected (0.007 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('pizzahut', 'Chicken Bacon (M)', 1900, 'Images/OUT/Pizza Hut/chickenbaconM.png'),
+    -> ('pizzahut', 'Black Chicken (M)', 1800, 'Images/OUT/Pizza Hut/blackchicken.webp'),
+    -> ('pizzahut', 'Cheese Lovers (M)', 1500, 'Images/OUT/Pizza Hut/cheeselovers.jpg'),
+    -> ('pizzahut', 'Devilled Chicken (M)', 1700, 'Images/OUT/Pizza Hut/devilledchicken.jpg'),
+    -> ('pizzahut', 'Tandoori Chicken (M)', 1750, 'Images/OUT/Pizza Hut/tandoorichickenM.jpg'),
+    -> ('pizzahut', 'Veggie Supreme (M)', 1600, 'Images/OUT/Pizza Hut/veggiesupreme.jpg'),
+    -> ('pizzahut', 'Hot Garlic Prawns (M)', 2100, 'Images/OUT/Pizza Hut/hotgarlicprawns.webp'),
+    -> ('pizzahut', 'Sausage Delight (M)', 1650, 'Images/OUT/Pizza Hut/sausagedelight.jpg'),
+    -> ('pizzahut', 'Garlic Bread (4pc)', 550, 'Images/OUT/Pizza Hut/garlicbread4pc.jpeg'),
+    -> ('pizzahut', 'Wing It (6pc)', 900, 'Images/OUT/Pizza Hut/wingit6pc.jpg'),
+    -> ('pizzahut', 'Chicken Rolls (4pc)', 550, 'Images/OUT/Pizza Hut/chickenrolls4pc.webp'),
+    -> ('pizzahut', 'Cheesy Garlic Bread', 750, 'Images/OUT/Pizza Hut/cheesygarlicbread.jpeg'),
+    -> ('pizzahut', 'Spaghetti Bolognese', 1100, 'Images/OUT/Pizza Hut/spaghettibolognesse.png'),
+    -> ('pizzahut', 'Mac & Cheese', 1200, 'Images/OUT/Pizza Hut/macandcheese.jpg'),
+    -> ('pizzahut', 'Potato Wedges', 550, 'Images/OUT/Pizza Hut/potatowedges.jpg');
+Query OK, 15 rows affected (0.002 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('dominos', 'BBQ Chicken (M)', 1600, 'Images/OUT/Domino''s Pizza/bbqchicken.avif'),
+    -> ('dominos', 'Spicy Veggie (M)', 1200, 'Images/OUT/Domino''s Pizza/spicyveggie.avif'),
+    -> ('dominos', 'Chicken Hawaiian (M)', 1650, 'Images/OUT/Domino''s Pizza/chickenhawaiian.avif'),
+    -> ('dominos', 'Meat Lovers (M)', 2100, 'Images/OUT/Domino''s Pizza/meatlovers.avif'),
+    -> ('dominos', 'Tandoori Chicken (M)', 1700, 'Images/OUT/Domino''s Pizza/tadoorichicken.jpg'),
+    -> ('dominos', 'Devilled Chicken (M)', 1650, 'Images/OUT/Domino''s Pizza/devilledchicken.png'),
+    -> ('dominos', 'Cheese & Corn (M)', 1400, 'Images/OUT/Domino''s Pizza/cheese&corn.webp'),
+    -> ('dominos', 'Double Cheese (M)', 1550, 'Images/OUT/Domino''s Pizza/doublecheese.jpeg'),
+    -> ('dominos', 'Garlic Breadsticks', 450, 'Images/OUT/Domino''s Pizza/garlicbreadsticks.jpg'),
+    -> ('dominos', 'Stuffed Garlic Bread', 650, 'Images/OUT/Domino''s Pizza/stuffedgalicbread.webp'),
+    -> ('dominos', 'BBQ Wings (4pc)', 850, 'Images/OUT/Domino''s Pizza/bbqwings4pc.avif'),
+    -> ('dominos', 'Potato Wedges', 450, 'Images/OUT/Domino''s Pizza/potatowedges.avif'),
+    -> ('dominos', 'Chicken Biriyani', 650, 'Images/OUT/Domino''s Pizza/chickenbiryani.jpeg'),
+    -> ('dominos', 'Pasta Italiano Veg', 750, 'Images/OUT/Domino''s Pizza/pastaitalianoveg.jpg'),
+    -> ('dominos', 'Choco Lava Cake', 350, 'Images/OUT/Domino''s Pizza/chocolavacake.avif');
+Query OK, 15 rows affected (0.014 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url) VALUES
+    -> ('fab', 'Chicken Lamprais', 1100, 'Images/OUT/FAB/chickenlamprais.jpg'),
+    -> ('fab', 'Choc Gateau Slice', 350, 'Images/OUT/FAB/chocgateauslice.jpeg'),
+    -> ('fab', 'Ribbon Cake Slice', 270, 'Images/OUT/FAB/ribboncakeslice.jpeg'),
+    -> ('fab', 'Fish Patty', 210, 'Images/OUT/FAB/fishpatty.jpg'),
+    -> ('fab', 'Chicken Roll', 260, 'Images/OUT/FAB/chickenroll.jpg'),
+    -> ('fab', 'Mutton Roll', 480, 'Images/OUT/FAB/muttonroll.jpg'),
+    -> ('fab', 'Fish Roll', 240, 'Images/OUT/FAB/fishroll.jpg'),
+    -> ('fab', 'Chicken Bun', 220, 'Images/OUT/FAB/chickenbun.jpg'),
+    -> ('fab', 'Chicken & Mush Pie', 240, 'Images/OUT/FAB/chicken&mushpie.jpg'),
+    -> ('fab', 'Vegetable Samosa', 220, 'Images/OUT/FAB/vegetablesamosa.jpg'),
+    -> ('fab', 'Chocolate Eclair', 300, 'Images/OUT/FAB/chocolateeclair.png'),
+    -> ('fab', 'Almond Tart', 330, 'Images/OUT/FAB/almondtart.jpg'),
+    -> ('fab', 'Fab Brownie', 350, 'Images/OUT/FAB/fabbrownie.png'),
+    -> ('fab', 'Fruit Gateau Slice', 450, 'Images/OUT/FAB/fruitgateauslice.png'),
+    -> ('fab', 'Fab Iced Coffee', 330, 'Images/OUT/FAB/fabicedcoffee.jpg');
+Query OK, 15 rows affected (0.005 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> ALTER TABLE menu_items ADD COLUMN rating DECIMAL(2,1) DEFAULT 0.0;
+Query OK, 0 rows affected (0.017 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> INSERT INTO menu_items (outlet_id, item_name, price, image_url, rating) VALUES
+    -> ('unidash_store', 'UniDash Hoodie', 3500, 'Images/OUT/UniDash Store/unidashhoodie.png', 5.0),
+    -> ('unidash_store', 'Logitech Wireless Mouse', 3900, 'Images/OUT/UniDash Store/logitechwirelessmouse.jpg', 4.6),
+    -> ('unidash_store', 'Kingston 64GB Pen Drive', 2900, 'Images/OUT/UniDash Store/kingston64gbpendrive.jpg', 4.8),
+    -> ('unidash_store', 'Anker 10000mAh Power Bank', 7000, 'Images/OUT/UniDash Store/anker10000mahpowerbank.jpg', 4.0),
+    -> ('unidash_store', 'Type-C to Type-C Cable', 3000, 'Images/OUT/UniDash Store/typectotypec.jpg', 4.7),
+    -> ('unidash_store', 'Type-C to Lightning Cable', 3000, 'Images/OUT/UniDash Store/typectolightning.webp', 4.7),
+    -> ('unidash_store', 'UGREEN 4-in-1 USB-C Hub', 5000, 'Images/OUT/UniDash Store/ugreen4in1usbccable.webp', 4.5),
+    -> ('unidash_store', 'DEEPCOOL Laptop Pad', 7000, 'Images/OUT/UniDash Store/deepcoollaptoppad.webp', 4.4),
+    -> ('unidash_store', 'Sticky Notes Bundle', 450, 'Images/OUT/UniDash Store/stickynotesbundle.jpg', 4.7),
+    -> ('unidash_store', 'Math Geometry Box', 1200, 'Images/OUT/UniDash Store/mathgeometrybox.jpg', 4.5),
+    -> ('unidash_store', 'JBL Wireless Earbuds', 9500, 'Images/OUT/UniDash Store/jblwirelessearbuds.webp', 4.8),
+    -> ('unidash_store', 'Smart Bottle', 1800, 'Images/OUT/UniDash Store/smartbottle.webp', 4.8),
+    -> ('unidash_store', 'FX-991EX Classwiz Calculator', 8500, 'Images/OUT/UniDash Store/fx991exclasswizcalculator.jpg', 4.9),
+    -> ('unidash_store', 'Lab Coat (Science Fac)', 2200, 'Images/OUT/UniDash Store/labcoat.jpeg', 4.2),
+    -> ('unidash_store', 'Correction White Ink', 160, 'Images/OUT/UniDash Store/correctionwhiteink.jpg', 4.5),
+    -> ('unidash_store', 'Clear Folders (5x)', 400, 'Images/OUT/UniDash Store/clearfolders.jpg', 4.8),
+    -> ('unidash_store', 'Exam Clip Board', 300, 'Images/OUT/UniDash Store/examclipboard.webp', 4.4),
+    -> ('unidash_store', 'Mini Whiteboard', 1500, 'Images/OUT/UniDash Store/miniwhiteboard.webp', 4.5),
+    -> ('unidash_store', 'LTT Tech Backpack', 6000, 'Images/OUT/UniDash Store/ltttechbackpack.webp', 4.7),
+    -> ('unidash_store', 'Casio FX-82EX', 5500, 'Images/OUT/UniDash Store/casiofx82ex.avif', 4.6);
+Query OK, 20 rows affected (0.002 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> drop table orders;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    559
+Current database: unidash
+
+Query OK, 0 rows affected (0.036 sec)
+
+MariaDB [unidash]> CREATE TABLE orders (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     order_data TEXT NOT NULL,
+    ->     total_amount INT NOT NULL,
+    ->     order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [unidash]> select * from orders;
++----+-----------------------------------------------------------------------------------------------------+--------------+---------------------+
+| id | order_data                                                                                          | total_amount | order_time          |
++----+-----------------------------------------------------------------------------------------------------+--------------+---------------------+
+|  1 | [{"name":"Fried Rice-Vegetable","price":300,"qty":1},{"name":"Fried Rice-Egg","price":450,"qty":1}] |          750 | 2026-02-22 13:20:16 |
++----+-----------------------------------------------------------------------------------------------------+--------------+---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [unidash]> ALTER TABLE orders ADD COLUMN fname VARCHAR(100) NOT NULL;
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> ALTER TABLE orders ADD COLUMN membertype VARCHAR(50) NOT NULL;
+Query OK, 0 rows affected (0.006 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> ALTER TABLE orders ADD COLUMN deliver_to VARCHAR(255) NOT NULL;
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> truncate table orders;
+Query OK, 0 rows affected (0.019 sec)
+
+MariaDB [unidash]> truncate table orders;
+Query OK, 0 rows affected (0.027 sec)
+
+MariaDB [unidash]> ALTER TABLE orders ADD COLUMN payment_method VARCHAR(50) NOT NULL DEFAULT 'Cash on Delivery';
+Query OK, 0 rows affected (0.011 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> truncate table orders;
+Query OK, 0 rows affected (0.021 sec)
+
+MariaDB [unidash]> select * from menu_items where outlet_id = 'unidash_store';
++-----+---------------+------------------------------+------------+--------------------------------------------------------+--------+
+| id  | outlet_id     | item_name                    | price      | image_url                                              | rating |
++-----+---------------+------------------------------+------------+--------------------------------------------------------+--------+
+| 200 | unidash_store | UniDash Hoodie               | 2147483647 | Images/OUT/UniDash Store/unidashhoodie.png             |    5.0 |
+| 201 | unidash_store | Logitech Wireless Mouse      | 2147483647 | Images/OUT/UniDash Store/logitechwirelessmouse.jpg     |    4.6 |
+| 202 | unidash_store | Kingston 64GB Pen Drive      | 2147483647 | Images/OUT/UniDash Store/kingston64gbpendrive.jpg      |    4.8 |
+| 203 | unidash_store | Anker 10000mAh Power Bank    | 2147483647 | Images/OUT/UniDash Store/anker10000mahpowerbank.jpg    |    4.0 |
+| 204 | unidash_store | Type-C to Type-C Cable       | 2147483647 | Images/OUT/UniDash Store/typectotypec.jpg              |    4.7 |
+| 205 | unidash_store | Type-C to Lightning Cable    | 2147483647 | Images/OUT/UniDash Store/typectolightning.webp         |    4.7 |
+| 206 | unidash_store | UGREEN 4-in-1 USB-C Hub      | 2147483647 | Images/OUT/UniDash Store/ugreen4in1usbccable.webp      |    4.5 |
+| 207 | unidash_store | DEEPCOOL Laptop Pad          | 2147483647 | Images/OUT/UniDash Store/deepcoollaptoppad.webp        |    4.4 |
+| 208 | unidash_store | Sticky Notes Bundle          | 2147483647 | Images/OUT/UniDash Store/stickynotesbundle.jpg         |    4.7 |
+| 209 | unidash_store | Math Geometry Box            | 2147483647 | Images/OUT/UniDash Store/mathgeometrybox.jpg           |    4.5 |
+| 210 | unidash_store | JBL Wireless Earbuds         | 2147483647 | Images/OUT/UniDash Store/jblwirelessearbuds.webp       |    4.8 |
+| 211 | unidash_store | Smart Bottle                 | 2147483647 | Images/OUT/UniDash Store/smartbottle.webp              |    4.8 |
+| 212 | unidash_store | FX-991EX Classwiz Calculator | 2147483647 | Images/OUT/UniDash Store/fx991exclasswizcalculator.jpg |    4.9 |
+| 213 | unidash_store | Lab Coat (Science Fac)       | 2147483647 | Images/OUT/UniDash Store/labcoat.jpeg                  |    4.2 |
+| 214 | unidash_store | Correction White Ink         | 2147483647 | Images/OUT/UniDash Store/correctionwhiteink.jpg        |    4.5 |
+| 215 | unidash_store | Clear Folders (5x)           | 2147483647 | Images/OUT/UniDash Store/clearfolders.jpg              |    4.8 |
+| 216 | unidash_store | Exam Clip Board              | 2147483647 | Images/OUT/UniDash Store/examclipboard.webp            |    4.4 |
+| 217 | unidash_store | Mini Whiteboard              | 2147483647 | Images/OUT/UniDash Store/miniwhiteboard.webp           |    4.5 |
+| 218 | unidash_store | LTT Tech Backpack            | 2147483647 | Images/OUT/UniDash Store/ltttechbackpack.webp          |    4.7 |
+| 219 | unidash_store | Casio FX-82EX                | 2147483647 | Images/OUT/UniDash Store/casiofx82ex.avif              |    4.6 |
++-----+---------------+------------------------------+------------+--------------------------------------------------------+--------+
+20 rows in set (0.002 sec)
+
+MariaDB [unidash]> UPDATE menu_items SET price = 3500 WHERE item_name = 'UniDash Hoodie';
+Query OK, 1 row affected (0.058 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 3900 WHERE item_name = 'Logitech Wireless Mouse';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 2900 WHERE item_name = 'Kingston 64GB Pen Drive';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 7000 WHERE item_name = 'Anker 10000mAh Power Bank';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 3000 WHERE item_name = 'Type-C to Type-C Cable';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 3000 WHERE item_name = 'Type-C to Lightning Cable';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 5000 WHERE item_name = 'UGREEN 4-in-1 USB-C Hub';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 7000 WHERE item_name = 'DEEPCOOL Laptop Pad';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 450 WHERE item_name = 'Sticky Notes Bundle';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 1200 WHERE item_name = 'Math Geometry Box';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 9500 WHERE item_name = 'JBL Wireless Earbuds';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 1800 WHERE item_name = 'Smart Bottle';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 8500 WHERE item_name = 'FX-991EX Classwiz Calculator';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 2200 WHERE item_name = 'Lab Coat (Science Fac)';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 160 WHERE item_name = 'Correction White Ink';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 400 WHERE item_name = 'Clear Folders (5x)';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 300 WHERE item_name = 'Exam Clip Board';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 1500 WHERE item_name = 'Mini Whiteboard';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 6000 WHERE item_name = 'LTT Tech Backpack';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> UPDATE menu_items SET price = 5500 WHERE item_name = 'Casio FX-82EX';
+Query OK, 1 row affected (0.003 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [unidash]> ALTER TABLE orders ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'Pending';
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [unidash]> insert into members (memtype,fname,lname,uniemail,pass) values(
+    -> 'dispatcher',
+    -> 'thinada',
+    -> 'damhiru',
+    -> 'ktdamhiru@students.nsbm.ac.lk',
+    -> 'thinada0203');
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [unidash]>

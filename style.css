@@ -1,0 +1,305 @@
+/* --- Color Palette Variables (Modern Tech Theme) --- */
+:root {
+    --bg-main: #000000;       /* Deep Midnight Blue */
+    --bg-secondary:#172a45;
+    --bg-third: #333333;  /* Slightly lighter for cards/inputs */
+    --accent-cyan: #00FFFF;   /* Electric Cyan for buttons/active states */
+    --text-primary: #ffffff; /* Pure White for main text */
+    --text-muted: #a0aec0;    /* Light Gray for secondary text */
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: Nunito, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3 {
+    font-weight: 1200;
+}
+
+/* --- Header & Navigation Styling --- */
+.navbar {
+    background-color: var(--bg-main); /* Match body background */
+    border-bottom: 1px solid var(--bg-third);
+}
+
+.ss {
+    font-family: "Segoe UI";
+}
+
+.icon-circle {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.133);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-cyan);
+}
+
+.fs-7 { font-size: 0.8rem; }
+
+/* Search Form */
+.search-form .input-group {
+    background-color: var(--bg-third);
+    border-radius: 50px; /* Fully rounded corners */
+    padding: 5px 10px;
+    width: 500px;
+}
+.search-form input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Buttons */
+.btn-accent {
+    background-color: var(--accent-cyan);
+    color: var(--bg-main); /* Dark text on cyan button */
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+.btn-accent:hover {
+    background-color: #33ffff; /* Slightly lighter on hover */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); /* Glow effect */
+}
+
+/* --- Page Navigation Pills --- */
+.nav-pills-container {
+    background-color: var(--bg-secondary);
+    border-radius: 50px;
+    display: inline-flex;
+}
+
+.nav-pill-link {
+    transition: all 0.3s;
+}
+
+.nav-pill-link.active {
+    background-color: var(--accent-cyan) !important;
+    color: var(--bg-main) !important;
+}
+.nav-pill-link:not(.active):hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* --- Navigation Arrow Buttons --- */
+.btn-nav-arrow {
+    width: 40px;
+    height: 40px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.btn-nav-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--accent-cyan);
+}
+
+/* --- Category Cards Styling --- */
+.category-card {
+    background-color: transparent; /* Let the inner container define the background */
+    overflow: hidden; /* Ensure image corners get rounded */
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.category-card img {
+    height: 250px; /* Fixed height for consistency */
+    object-fit: cover; /* Crop image to fit */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.category-card .card-body {
+    background-color: var(--bg-secondary); /* Darker card background */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding: 1rem;
+}
+
+.category-card .card-title {
+    color: var(--text-primary);
+}
+
+.category-card .card-text {
+    color: var(--text-muted) !important; /* Force muted color */
+}
+
+/* Overriding Bootstrap's text-muted for better contrast on dark bg */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* --- Dropdown Styling --- */
+
+/* Make the trigger look clickable */
+.location-selector {
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px; /* Rounded corners for hover effect */
+    transition: background-color 0.2s;
+}
+
+.location-selector:hover, 
+.dropdown.show .location-selector {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight on hover/open */
+}
+
+/* Customizing the Dropdown Menu Box */
+.dropdown-menu-dark {
+    background-color: var(--bg-secondary); /* Matches your card background (#172a45) */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Dropdown Items */
+.dropdown-item {
+    color: var(--text-primary);
+    padding: 5px 18px;
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+/* The 'Active' item (Currently Selected) */
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--accent-cyan);
+    color: var(--bg-main); /* Dark text on Cyan background for contrast */
+    font-weight: 700;
+}
+
+/* Map Icon Color */
+.text-accent-cyan {
+    color: var(--accent-cyan) !important;
+}
+
+/* --- Sorting Dropdown Button --- */
+.btn-sort {
+    background-color: var(--bg-secondary); /* Matches card background */
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.btn-sort:hover, 
+.btn-sort:focus, 
+.show > .btn-sort.dropdown-toggle {
+    background-color: rgba(0, 255, 255, 0.1); /* Subtle cyan tint */
+    color: var(--accent-cyan); /* Text turns Cyan */
+    box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2); /* Focus ring */
+}
+
+/* Remove the default ugly dropdown arrow if you want (Optional) */
+.btn-sort::after {
+    display: none; /* Hides the default triangle since you have the slider icon */
+}
+
+/* --- Dropdown Menu Tweaks --- */
+/* (Reuses your existing dropdown styles, but ensures right alignment) */
+.dropdown-menu-end {
+    right: 0;
+    left: auto; /* Ensures menu opens to the left so it doesn't go off-screen */
+}
+
+.category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-10px); /* Moves up slightly */
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.1); /* Adds a faint Cyan glow */
+}
+
+/* sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */
+
+
+/* --- Animation States --- */
+
+/* The base class for all animated cards */
+.anim-card {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* State 1: Leaving the screen */
+.fade-exit {
+    opacity: 0 !important;
+    transform: scale(0.95); /* Shrink slightly while fading out */
+}
+
+/* State 2: Starting position for new cards (Invisible & Lower down) */
+.fade-enter-start {
+    opacity: 0 !important;
+    transform: translateY(30px); /* Start 30px lower */
+}
+
+/* State 3: Final position for new cards (Visible & Normal) */
+.fade-enter-end {
+    opacity: 1 !important;
+    transform: translateY(0);
+}
+
+/* --- Modal Styling --- */
+.custom-modal {
+    background-color: var(--bg-secondary); /* Matches your cards (#172a45) */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6); /* Deep shadow for depth */
+}
+
+/* Modal Input Fields */
+.custom-input {
+    background-color: var(--bg-third) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: white !important;
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+.custom-input:focus {
+    background-color: var(--bg-third) !important;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2);
+}
+
+.custom-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Modal Backdrop (The dark overlay behind the popup) */
+.modal-backdrop.show {
+    opacity: 0.8;
+    background-color: #000;
+}
+
+/* --- The Edge Navigation Buttons Hover Effects --- */
+
+/* 1. Inactive Buttons (The ones with white outline) */
+/* When you hover, they turn Cyan with a glow */
+.edge-nav .btn-outline-light:hover {
+    background-color: rgba(0, 255, 255, 0.15) !important; /* Subtle transparent cyan fill */
+    color: var(--accent-cyan) !important;                 /* Text turns Cyan */
+    border-color: var(--accent-cyan) !important;          /* Border turns Cyan */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);          /* Cyan Glow */
+    transform: translateY(-2px);                          /* Slight lift effect */
+}
+
+/* 2. Active Button (The selected one) */
+/* Optional: Make the active button pop even more on hover */
+.edge-nav .btn-accent:hover {
+    background-color: #e0ffff !important; /* Lighter/Brighter Cyan */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); /* Stronger Glow */
+}
